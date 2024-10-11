@@ -24,55 +24,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
         fields = ['product', 'quantity', 'price']
         read_only_fields = ['price']
 
-# class OrderItemSerializer(serializers.ModelSerializer):
-#     product = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), required=True)
 
-#     class Meta:
-#         model = OrderItem
-#         fields = ['product', 'quantity']
-
-#     def to_internal_value(self, data):
-#         try:
-#             return super().to_internal_value(data)
-#         except ValidationError as e:
-#             reformatted_errors = {}
-#             for field, error_list in e.detail.items():
-#                 if field == 'product' and 'does not exist' in str(error_list[0]):
-#                     reformatted_errors[field] = [f"Invalid pk \"{data.get('product', '')}\" - object does not exist."]
-#                 else:
-#                     reformatted_errors[field] = error_list
-#             raise ValidationError(reformatted_errors)
-
-
-# class OrderSerializer(serializers.ModelSerializer):
-#     items = OrderItemSerializer(many=True)
-
-#     class Meta:
-#         model = Order
-#         fields = ['id', 'user', 'order_date', 'status', 'total_amount', 'items']
-#         read_only_fields = ['user', 'order_date', 'total_amount']
-
-#     def create(self, validated_data):
-#         items_data = validated_data.pop('items')
-
-#         # Initially set the total_amount to 0
-#         order = Order.objects.create(total_amount=0, **validated_data)
-
-#         total_amount = 0
-#         for item_data in items_data:
-#             product = item_data['product']
-#             quantity = item_data['quantity']
-#             price = product.price
-
-#             # Create OrderItem and add its value to total_amount
-#             OrderItem.objects.create(order=order, product=product, quantity=quantity, price=price)
-#             total_amount += price * quantity
-
-#         # Update the total_amount and save the order again
-#         order.total_amount = total_amount
-#         order.save()
-
-#         return order
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True)
 
