@@ -1,10 +1,8 @@
-from rest_framework import generics, status
-from rest_framework.response import Response
+from rest_framework import generics
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from .models import Category, Product, Supplier, Order, OrderItem
 from .serializers import CategorySerializer, ProductSerializer, SupplierSerializer, OrderSerializer, OrderItemSerializer
-from .permissions import IsAdminOrReadOnly, IsOwnerOrReadOnly
-from rest_framework.exceptions import ValidationError
+from .permissions import  IsOwnerOrReadOnly
 
 # Category Views
 class CategoryListCreateView(generics.ListCreateAPIView):
